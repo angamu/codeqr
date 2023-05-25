@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="ZXing for JS">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
     <title>Ingresos a PT</title>
 
@@ -164,7 +163,7 @@
     }
 
     async function saveProducts(listProduct) {
-        let response = await fetch('https://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=1&criterio='+listProduct);
+        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=1&criterio='+listProduct);
         console.log(response);
         //if (response.status === 200) {
             
