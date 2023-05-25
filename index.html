@@ -97,13 +97,13 @@
             <div class="sourceSelectData_item">
                 <label>Código:</label>
                 <pre><code id="result"></code></pre>
-                <div style="display: block;">
+                <div style="display: none;">
                     <div id="pcode"></div>
                     <div id="pname"></div>
                 </div>
             </div>
             <div class="sourceSelectData__item">
-                <input class="input-md form-control" id="pamount" placeholder="Ingrese la cantidad">
+                <input type="number" class="input-md form-control" id="pamount" placeholder="Ingrese la cantidad">
                 <button class="btn btn-success" type="submit" id="addProductToList">Agregar</button>
             </div>
         </div>
@@ -128,8 +128,9 @@
   <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
   <script type="text/javascript">
     /* api rest php */
+   
     async function fetchText(codeProduct) {
-        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
+       /*let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
         //document.getElementById('result').textContent = response;
         //if (response.status === 200) {
             let data = await response.text();
@@ -137,13 +138,30 @@
             document.getElementById('result').textContent = "** " + data.cod + " \n** " + data.nom + " \n** " + data.und + " und";
             $("#pcode").text(data.cod);
             $("#pname").text(data.nom);
-        //}
+        //}*/
+        const arrproducts = new Array();
+        arrproducts.push({'code': '1540', 'name':'PARRILLA CONGELADOR ANDROMEDA 230/250 LT - 225D7841P002 REV 1'});
+        arrproducts.push({'code': '1851', 'name':'PARRILLA PLANA CYCLE 320 BARANDAL -225D7842P002'});
+        arrproducts.push({'code': '1852', 'name':'PARRILLA PLANA CYCLE 390 BARANDAL-238C4696P005'});
+        arrproducts.push({'code': '1700', 'name':'PARRILLA PLANA ANDROMEDA 210-235'});
+        arrproducts.push({'code': '2264', 'name':'PARRILLA CONGELADOR CYCLE 370_NG - 225D9119P001'});
+        arrproducts.push({'code': '2265', 'name':'PARRILLA CONGELADOR CYCLE 320_NG - 225D9119P002'});
+        arrproducts.push({'code': '2282', 'name':'PARRILLA CONGELADOR CYCLE 320 BARANDAL - 225D9119P005'});
+        arrproducts.push({'code': '2283', 'name':'PARRILLA CONGELADOR CYCLE 370 BARANDAL - 225D9119P006'});
+
+        let elements = "";
+        Object.keys(arrproducts).map(function(k) {
+            if(arrproducts[k]["code"] === codeProduct){
+                document.getElementById('result').textContent = "** " + arrproducts[k]["code"] + " \n** " + arrproducts[k]["name"] + " \n** " + "30 und";
+                $("#pcode").text(arrproducts[k]["code"]);
+                $("#pname").text(arrproducts[k]["name"]);
+            }
+        });
     }
+    
 
     function decodeOnce(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
-        console.log(result)
-        //document.getElementById('result').textContent = result.text
         setTimeout(() => {
             fetchText(result.text);
         }, "1000");
@@ -254,7 +272,7 @@
 
         /* api rest php */
         let codeProduct = "1540";
-        //fetchText(codeProduct);
+        fetchText(codeProduct);
 
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
