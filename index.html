@@ -144,7 +144,9 @@
       codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
         console.log(result)
         //document.getElementById('result').textContent = result.text
-        fetchText(result.text);
+        setTimeout(() => {
+            fetchText(result.text);
+        }, "1000");
       }).catch((err) => {
         document.getElementById('result').textContent = err
       })
