@@ -97,7 +97,7 @@
             <div class="sourceSelectData_item">
                 <label>Código:</label>
                 <pre><code id="result"></code></pre>
-                <div style="display: none;">
+                <div style="display: block;">
                     <div id="pcode"></div>
                     <div id="pname"></div>
                 </div>
@@ -130,14 +130,14 @@
     /* api rest php */
     async function fetchText(codeProduct) {
         let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
-        document.getElementById('result').textContent = response;
-        if (response.status === 200) {
+        //document.getElementById('result').textContent = response;
+        //if (response.status === 200) {
             let data = await response.text();
             data=JSON.parse(data);
             document.getElementById('result').textContent = "** " + data.cod + " \n** " + data.nom + " \n** " + data.und + " und";
             $("#pcode").text(data.cod);
             $("#pname").text(data.nom);
-        }
+        //}
     }
 
     function decodeOnce(codeReader, selectedDeviceId) {
