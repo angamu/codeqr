@@ -130,7 +130,7 @@
     function decodeOnce(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
         console.log(result)
-        //document.getElementById('result').textContent = result.text
+        document.getElementById('result').textContent = result.text
         fetchText(result.text);
       }).catch((err) => {
         document.getElementById('result').textContent = err
