@@ -127,6 +127,18 @@
 
   <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
   <script type="text/javascript">
+    /* api rest php */
+    async function fetchText(codeProduct) {
+        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
+        if (response.status === 200) {
+            let data = await response.text();
+            data=JSON.parse(data);
+            document.getElementById('result').textContent = "** " + data.cod + " \n** " + data.nom + " \n** " + data.und + " und";
+            $("#pcode").text(data.cod);
+            $("#pname").text(data.nom);
+        }
+    }
+    
     function decodeOnce(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
         console.log(result)
@@ -169,18 +181,6 @@
           }
         }
       })
-    }
-
-    /* api rest php */
-    async function fetchText(codeProduct) {
-        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
-        if (response.status === 200) {
-            let data = await response.text();
-            data=JSON.parse(data);
-            document.getElementById('result').textContent = "** " + data.cod + " \n** " + data.nom + " \n** " + data.und + " und";
-            $("#pcode").text(data.cod);
-            $("#pname").text(data.nom);
-        }
     }
 
     $("#addProductToList").on("click", function(){
@@ -251,7 +251,7 @@
 
         /* api rest php */
         let codeProduct = "1540";
-        fetchText(codeProduct);
+        //fetchText(codeProduct);
 
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
