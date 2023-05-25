@@ -71,11 +71,6 @@
 
     <section class="container" id="demo-content">
         <div>
-            <a class="button" id="startButton">Inicio</a>
-            <a class="button" id="resetButton">Resetear</a>
-        </div>
-
-        <div>
             <video id="video" width="350" height="250" style="border: 1px solid gray"></video>
         </div>
 
@@ -83,6 +78,11 @@
             <label for="sourceSelect">Cambiar cámara:</label>
             <select id="sourceSelect" style="max-width:400px">
             </select>
+        </div>
+
+        <div>
+            <a class="button" id="startButton">Inicio</a>
+            <a class="button" id="resetButton">Resetear</a>
         </div>
 
         <div style="display: none">
@@ -271,7 +271,7 @@
 
         /* api rest php */
         let codeProduct = "1540";
-        fetchText(codeProduct);
+        //fetchText(codeProduct);
 
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
