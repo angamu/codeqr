@@ -129,6 +129,7 @@
   <script type="text/javascript">
     /* api rest php */
     async function fetchText(codeProduct) {
+        document.getElementById('result').textContent = "hola";
         let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
         if (response.status === 200) {
             let data = await response.text();
@@ -138,11 +139,11 @@
             $("#pname").text(data.nom);
         }
     }
-    
+
     function decodeOnce(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
         console.log(result)
-        document.getElementById('result').textContent = result.text
+        //document.getElementById('result').textContent = result.text
         fetchText(result.text);
       }).catch((err) => {
         document.getElementById('result').textContent = err
