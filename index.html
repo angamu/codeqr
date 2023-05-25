@@ -118,6 +118,9 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            <div>
+                <button class="btn btn-success" type="submit" id="saveProductToList">Guardar</button>
+            </div>
         </div>
 
     </section>
@@ -157,6 +160,14 @@
                 $("#pname").text(arrproducts[k]["name"]);
             }
         });
+    }
+
+    async function saveProducts(listProduct) {
+        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=1&criterio='+listProduct);
+        console.log(response);
+        //if (response.status === 200) {
+            
+        //}
     }
     
 
@@ -232,39 +243,27 @@
     $("#listProducts tbody").on("click", ".item-delete", function(e){
         $(this).parent().parent().remove();
     });
+    
 
-    $("#guardarEOrden").on('click', function(){            
-        if($("#productosEOrden tbody tr").length>0){
+    $("#saveProductToList").on('click', function(){            
+        if($("#listProducts tbody tr").length>0){
             let lstproductos=new Array();            
-            $("#productosEOrden tbody tr").each(function(){ 
-                lstproductos.push({'codigo':$(this).find("td:eq(0)").text(), 'cantidad':$(this).find("td:eq(4)").text(), 'orden':$(this).find("td:eq(3)").text(), 'planilla':$(this).find("td:eq(2)").text()});
+            $("#listProducts tbody tr").each(function(){ 
+                lstproductos.push({'codigo':$(this).find("td:eq(0)").text(), 'cantidad':$(this).find("td:eq(2)").text()});
             });
-            $.ajax({
-                type:"POST",
-                encoding:"UTF-8",
-                url: rutacontrollers,
-                data:{
-                    accion:"0", 
-                    productos: lstproductos
-                },
-                dataType: "json",
-                success: function(session){                        
-                    if(session.error == 0 ){
-                        messageText('success', 'Registro exitoso...', session.response);
-                    } else {
-                        messageText('error', 'Error en datos...', session.response);
-                    }
-                    /*setTimeout(function(){
-                        window.location.reload(true);
-                    }, 3000);*/
-                }
-            });
+            saveProducts(JSON.stringify(lstproductos));
         } 
         else {
-            messageText('error', 'Error en datos...', 'No existen productos en lista para registrar.');
-        }
-           
-        });
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en datos...',
+                text: 'No existen productos en lista para registrar.'
+            })
+        }  
+        setTimeout(function(){
+            window.location.reload(true);
+        }, 2000);        
+    });
 
     window.addEventListener('load', function () {
         let selectedDeviceId;
