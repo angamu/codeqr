@@ -129,8 +129,8 @@
   <script type="text/javascript">
     /* api rest php */
     async function fetchText(codeProduct) {
-        document.getElementById('result').textContent = codeProduct+"**";
         let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
+        document.getElementById('result').textContent = response;
         if (response.status === 200) {
             let data = await response.text();
             data=JSON.parse(data);
