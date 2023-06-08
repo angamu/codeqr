@@ -137,7 +137,7 @@
         $.ajax({
             type:"POST",
             encoding:"UTF-8",
-            url: "controller.php",
+            url: "https://codeqr-orpin.vercel.app/controller.php",
             data:{
                 accion:"0",
                 criterio:codeProduct
@@ -154,7 +154,7 @@
     async function saveProducts(listProduct) {
         $.ajax({
             type:"POST",
-            url: "controller.php",
+            url: "https://codeqr-orpin.vercel.app/controller.php",
             data:{
                 accion:"1",
                 productos:listProduct
