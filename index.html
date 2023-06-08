@@ -133,41 +133,50 @@
     /* api rest php */
    
     async function fetchText(codeProduct) {
-       /*let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=0&criterio='+codeProduct);
-        //document.getElementById('result').textContent = response;
-        //if (response.status === 200) {
-            let data = await response.text();
-            data=JSON.parse(data);
-            document.getElementById('result').textContent = "** " + data.cod + " \n** " + data.nom + " \n** " + data.und + " und";
-            $("#pcode").text(data.cod);
-            $("#pname").text(data.nom);
-        //}*/
-        const arrproducts = new Array();
-        arrproducts.push({'code': '1540', 'name':'PARRILLA CONGELADOR ANDROMEDA 230/250 LT - 225D7841P002 REV 1'});
-        arrproducts.push({'code': '1851', 'name':'PARRILLA PLANA CYCLE 320 BARANDAL -225D7842P002'});
-        arrproducts.push({'code': '1852', 'name':'PARRILLA PLANA CYCLE 390 BARANDAL-238C4696P005'});
-        arrproducts.push({'code': '1700', 'name':'PARRILLA PLANA ANDROMEDA 210-235'});
-        arrproducts.push({'code': '2264', 'name':'PARRILLA CONGELADOR CYCLE 370_NG - 225D9119P001'});
-        arrproducts.push({'code': '2265', 'name':'PARRILLA CONGELADOR CYCLE 320_NG - 225D9119P002'});
-        arrproducts.push({'code': '2282', 'name':'PARRILLA CONGELADOR CYCLE 320 BARANDAL - 225D9119P005'});
-        arrproducts.push({'code': '2283', 'name':'PARRILLA CONGELADOR CYCLE 370 BARANDAL - 225D9119P006'});
-
-        let elements = "";
-        Object.keys(arrproducts).map(function(k) {
-            if(arrproducts[k]["code"] === codeProduct){
-                document.getElementById('result').textContent = "** " + arrproducts[k]["code"] + " \n** " + arrproducts[k]["name"] + " \n** " + "30 und";
-                $("#pcode").text(arrproducts[k]["code"]);
-                $("#pname").text(arrproducts[k]["name"]);
+        $.ajax({
+            type:"POST",
+            encoding:"UTF-8",
+            url: "controller.php",
+            data:{
+                accion:"0",
+                criterio:codeProduct
+            },
+            dataType: "json",
+            success: function(data){
+                document.getElementById('result').textContent = "** " + data.codigo + " \n** " + data.nombre + " \n** " + data.unidad;
+                $("#pcode").text(data.codigo);
+                $("#pname").text(data.nombre);
             }
         });
     }
 
     async function saveProducts(listProduct) {
-        let response = await fetch('http://190.0.50.6:85/sicp/siteco/qr/dataproduct.php?accion=1&criterio='+listProduct);
-        console.log(response);
-        //if (response.status === 200) {
-            
-        //}
+        $.ajax({
+            type:"POST",
+            url: "controller.php",
+            data:{
+                accion:"1",
+                productos:listProduct
+            },
+            success: function(data){
+                if(data==="success"){
+                    Swal.fire(
+                        'Registro exitoso',
+                        'La información fue guardada en Sicp',
+                        'success'
+                    )
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en datos...',
+                        text: 'Error al registrar los productos en Sicp.'
+                    })
+                }
+            }
+        });
+        setTimeout(function(){
+            window.location.reload(true);
+        }, 2000); 
     }
     
 
@@ -190,15 +199,6 @@
         }
 
         if (err) {
-          // As long as this error belongs into one of the following categories
-          // the code reader is going to continue as excepted. Any other error
-          // will stop the decoding loop.
-          //
-          // Excepted Exceptions:
-          //
-          //  - NotFoundException
-          //  - ChecksumException
-          //  - FormatException
 
           if (err instanceof ZXing.NotFoundException) {
             console.log('No QR code found.')
@@ -251,7 +251,7 @@
             $("#listProducts tbody tr").each(function(){ 
                 lstproductos.push({'codigo':$(this).find("td:eq(0)").text(), 'cantidad':$(this).find("td:eq(2)").text()});
             });
-            saveProducts(JSON.stringify(lstproductos));
+            saveProducts(lstproductos);
         } 
         else {
             Swal.fire({
@@ -259,10 +259,7 @@
                 title: 'Error en datos...',
                 text: 'No existen productos en lista para registrar.'
             })
-        }  
-        /*setTimeout(function(){
-            window.location.reload(true);
-        }, 2000); */       
+        }       
     });
 
     window.addEventListener('load', function () {
