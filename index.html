@@ -133,6 +133,7 @@
     /* api rest php */
    
     async function fetchText(codeProduct) {
+        document.getElementById('result').textContent = codeProduct
         $.ajax({
             type:"POST",
             encoding:"UTF-8",
@@ -189,7 +190,6 @@
         document.getElementById('result').textContent = err
       })
     }
-
     function decodeContinuously(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
         if (result) {
